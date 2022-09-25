@@ -10,8 +10,8 @@ reddit()
 local _howmany=${1:-5} _subname=${2} _sub="https://www.reddit.com/r/${2:-commandline}.rss" _dir="$HOME/.redditnews"
 mkdir $_dir > /dev/null 2>&1
 
-# get headlines
-gum spin --spinner dot --title "Adquiring headlines from r/$_subname..." -- \
+# get headlines, uncommnet for spin
+# gum spin --spinner dot --title "Adquiring headlines from r/$_subname..." -- \
     curl -s -o $_dir/news_${_subname}  -A "reddit_bash_script (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15" $_sub
 
 # just headlines, will stop after that
