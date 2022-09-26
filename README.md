@@ -1,7 +1,7 @@
 # reddit
 Simple bash function for showing reddit headlines
 
-![image](https://user-images.githubusercontent.com/93226/192123132-02697cc2-ad50-4459-a615-831c2b046051.png)
+![image](https://user-images.githubusercontent.com/93226/192354294-24e65a75-6bb1-4bc9-a824-0f3e9b48d28f.png)
 
 # What it does
 Display headlines from any r/subreddit (default r/bash) and show comments for each one if desired.
