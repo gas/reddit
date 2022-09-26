@@ -16,12 +16,6 @@ Display headlines from any r/subreddit (default r/bash) and show comments for ea
 curl
 
 # Preview dependencies: 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-gum, fzf, xmllint, html-xml-utils, recode & bat. 
-=======
->>>>>>> 80f9171 (Added cowsay example)
 gum, fzf, html-xml-utils, bat
 
 # Notes
@@ -30,19 +24,13 @@ That's because *hxselect* included with package managers is too old and doesn't 
 You might want to download and install a newer one from https://www.w3.org/Tools/HTML-XML-utils.
 
 ```
-$ reddit bash 2 | awk '{print $0"\n"}' | cowsay
- __________________________________________
-/ set -x is your friend                    \
-|                                          |
-\ [Help] Parsing password to openssl OCSP  /
- ------------------------------------------
+$ reddit | cowsay
+ _______________________
+< set -x is your friend >
+ -----------------------
         \   ^__^
          \  (oo)\_______
             (__)\       )\/\
                 ||----w |
                 ||     ||
 ```
-<<<<<<< HEAD
-=======
->>>>>>> 12f8ec3 (Added cowsay example)
->>>>>>> 80f9171 (Added cowsay example)
