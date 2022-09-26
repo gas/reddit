@@ -1,9 +1,9 @@
 #!#!/usr/bin/env bash
 
-# reddit v0.5: reformatting improvements
-# Default: redditi (=reddit bash 1)
+# reddit script
+# Usage default: reddit (=reddit bash 1)
 # Usage: reddit 10 bash, reddit 5 commandline show, ...
-# Dependencies: gum, fzf, html-xml-utils (v8+), curl for headlines.
+# Dependencies: gum, fzf, html-xml-utils (v8+), curl
 
 reddit() 
 {
@@ -81,6 +81,7 @@ done
     | tail -n +2 | head -n $_howmany | cat -n \
     | fzf --reverse --preview " _preview {1} ${_subname}" \
     --preview-window=down,80% --header=$_sub
+    # | sed -n ${_x}p $_dir/links_${_subname}
 }
 
 _preview() {
