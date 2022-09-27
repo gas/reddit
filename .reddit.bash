@@ -1,13 +1,14 @@
 #!#!/usr/bin/env bash
 
-# reddit script
+# reddit script v0.8 show page link when finished
 # Usage default: reddit (=reddit bash 1)
 # Usage: reddit 10 bash, reddit 5 commandline show, ...
 # Dependencies: gum, fzf, html-xml-utils (v8+), curl
 
 reddit() 
 {
-local _howmany=${2:-1} _subname=${1} _sub="https://www.reddit.com/r/${1:-bash}.rss" _dir="$HOME/.redditnews"
+local _howmany=${2:-1} _subname=${1} _dir="$HOME/.redditnews"
+local _sub="https://www.reddit.com/r/${1:-bash}.rss"
 mkdir $_dir > /dev/null 2>&1
 
 # 0. download index
@@ -16,7 +17,7 @@ mkdir $_dir > /dev/null 2>&1
 
 # 1.  headlines and exit
 if [[ -z ${3} ]]; then 
-    cat $_dir/news_${_subname} | asc2xml \
+    cat "$_dir/news_${_subname}" | asc2xml \
         | hxnormalize -x -l 150 | hxselect -s "\n" -c title \
         | tail -n +2 | head -n $_howmany
 
@@ -26,7 +27,7 @@ fi
 # 2.  lets get comments
 
 # 2.1 extract links
-cat $_dir/news_${_subname} | asc2xml \
+cat "$_dir/news_${_subname}" | asc2xml \
     | hxnormalize -x -l 150 | hxselect -s "\n" "link[href]" \
     | sed 's/<link href="//;s/\/"><\/link>/.rss/;' | tail -n +3 \
     | head -n ${_howmany} > $_dir/links_${_subname}
@@ -35,7 +36,7 @@ cat $_dir/news_${_subname} | asc2xml \
 local _x=1
 # set -o pipefail
 echo "Downloading ${_howmany} from ${_subname}:" > $_dir/errors_${_subname}
-cat $_dir/links_${_subname} | while read line # || [[ -n $line ]];
+cat "$_dir/links_${_subname}" | while read line # || [[ -n $line ]];
 do  
     # curl
     if gum spin --spinner dot --title " $_x/$_howmany < r/$_subname..." -- \
@@ -80,7 +81,10 @@ done
     | hxselect -s "\n" -c title \
     | tail -n +2 | head -n $_howmany | cat -n \
     | fzf --reverse --preview " _preview {1} ${_subname}" \
-    --preview-window=down,80% --header=$_sub
+    --preview-window=down,80% --header=$_sub \
+    | tr '[:upper:]' '[:lower:]' | tr -cd '[a-zA-Z0-9]-_ ' \
+    | awk '{print $2" "$3" "$4}' | sed 's/ /_/g;' | tee selected.txt \
+    | grep -f - ${_dir}/links_${_subname} | sed 's/\.rss/\//g'
     # | sed -n ${_x}p $_dir/links_${_subname}
 }
 
